@@ -13,4 +13,4 @@ A program 4 színes téglalapot jelenít meg. Ezek az alakzatok megmutatják, ho
 
 ## Játék vége: 
 
-A játéknak akkor van vége, ha a „színkereső“ kitatláta a színkombinációt helyes sorrendben, vagy elfogy a lépéseinek száma. A tippeket a xy json fájlban tekintheti meg a játékos. 
+A játéknak akkor van vége, ha a „színkereső“ kitatláta a színkombinációt helyes sorrendben, vagy elfogy a lépéseinek száma. A program statisztikát készít, hogy a színek hány %-ban szerepeltek a feladványban.
