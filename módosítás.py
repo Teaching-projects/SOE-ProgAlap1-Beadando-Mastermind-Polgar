@@ -75,7 +75,7 @@ def szinkod(bevitel:List) -> List:
     ['piros', 'zold', 'sarga', 'kek', 'lila', 'cyan', 'feher', '\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m', '\x1b[0m']
 
     >>> szinkod(szinek = ["piros", "sarga" , "zold" , "kek" , "lila" , "feher" , "cyan"])
-    'piros', 'sarga', 'zold', 'kek', 'lila', 'feher', 'cyan', '\x1b[0;30;41m', '\x1b[0;30;43m', '\x1b[0;30;42m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;47m', '\x1b[0;30;46m', '\x1b[0m']
+    ['piros', 'sarga', 'zold', 'kek', 'lila', 'feher', 'cyan', '\x1b[0;30;41m', '\x1b[0;30;43m', '\x1b[0;30;42m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;47m', '\x1b[0;30;46m', '\x1b[0m']
     
     """
 
