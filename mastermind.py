@@ -56,7 +56,7 @@ def setup_game(beallitasok, adatbazis):
                 szinek_tobbszor = True
             else:
                 szinek_tobbszor = False
-            if feladvany_hossza >= len(szinek): # A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
+            if feladvany_hossza >= len(szinek): 
                 szinek_tobbszor = True
                 print("Nem engedelyezett! A feladvany hosszabb mint szinek szama")
             print("A jatek indulasakor statisztika megjelenitese? (i/n)")
@@ -222,7 +222,6 @@ def statisztika(conf, adatbazis):
 def mastermind():
     conf = load_setup(beallitasok)
     feladvany = general(conf,adatbazis)
-    print(feladvany)
     system("cls")
     print("Udvozollek a MasterMind jatekban,",
           conf[1], "színre gondoltam amit ki kell talalnod sorban")
