@@ -10,7 +10,7 @@ adatbazis = "mastermind.adatok"
 def setup_game(beallitasok, adatbazis):
     setup = True
     while setup is True:
-        filename, probalkozasok, feladvany_hossza, szinek_tobbszor, statisztika, szinek_utotag = (adatbazis), int(), int(), bool(), bool(), str('\x1b[0m')
+        filename, probalkozasok, feladvany_hossza, szinek_tobbszor, statisztika, szinek_utotag = adatbazis, int(), int(), bool(), bool(), str('\x1b[0m')
         szinek = ["piros" , "zold" , "sarga" , "kek" , "lila" , "cyan" , "feher"]
         szinek_elotag = ['\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m']
         print("Milyen nehezsegi szinten szeretnel jatszani?","\n",
