@@ -4,13 +4,13 @@
 
 ### Játék indítása:
 
-A játék úgy kezdődik, hogy a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszani: kezdő, haladó, vagy egyéni szinten. 
+A játék úgy kezdődik, hogy a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszani: kezdő, haladó, vagy egyéni szinten, vagy betölti az elmentett beállításait.
 
 ### Játék menete: 
 
-Ha a játékos a kezdő szintet választja, akkor 10 próbálkzása lesz, 4 színt kell kitalálnia az előre megadott 7 színből, 1 színt csak egyszer használhat fel, valamint a játék végén kap statisztikát.
+Ha a játékos a kezdő szintet választja, akkor 10 próbálkzása lesz, 4 színt kell kitalálnia az előre megadott 7 színből, 1 szín csak egyszer szerepel a feladványban, valamint a játék elején és végén is kap statisztikát. 
 
-Ha a játékos a haladó szintet választja, akkor 15 próbálkozása lesz, 6 színt kell kitalálnia az előre megadott 7 színből, 1 színt többször is felhasználhat, azonban a játék végén nem kap statisztikát.
+Ha a játékos a haladó szintet választja, akkor 15 próbálkozása lesz, 6 színt kell kitalálnia az előre megadott 7 színből, 1 szín többször is szerepelhet a feladványban, valamint csak a játék végén kap statisztikát.
 
 Ha a játékos az egyéni beállításokat választja, akkor ő döntheti el, hogy hány próbálkozása legyen, hány színt találjon ki, a 7 alapszínhez szeretne – e még hozzáadni színeket. Ezután azt is eldöntheti, hogy egy szín többször is szerepelhet – e a játékban, kér – e statisztikát, valamint, hogy ezeket a beállításokat szeretné – e elmenteni.
 
