@@ -7,7 +7,7 @@ from os import system
 from typing import List
 
 beallitasok = "mastermind.setup" # főbeállítás file
-adatbazis = "mastermind.adatok" # feladványok adatbázisai, amiből a statisztika készül
+adatbazis = "mastermind.adatok" #az eddigi feladványok mentett adatbázisa
 
 
 def filecheck(filename) -> bool:
@@ -45,49 +45,49 @@ def setup_game(beallitasok, adatbazis):
         szinek = ["piros" , "zold" , "sarga" , "kek" , "lila" , "cyan" , "feher"]
         szinek_elotag = ['\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m']
         print("Milyen nehezsegi szinten szeretnel jatszani?","\n",
-            "K=Kezdo, H=Halado, E=Egyeni beallitasok")
-        szint = str(input())
-        if szint == "K":
-            probalkozasok = 10
-            feladvany_hossza = 4
-            szinek_tobbszor = False
-            statisztika = True
-        elif szint == "H":
-            probalkozasok = 15
-            feladvany_hossza = 6
-            szinek_tobbszor = True
-            statisztika = False
-        elif szint == "E":
+            "K=Kezdo, H=Halado, E=Egyeni beallitasok") # A játék úgy kezdődik, hogy a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszani: kezdő, haladó, vagy egyéni szinten.
+        szint = str(input()) # bekéri a színt
+        if szint == "K": # ha a játékos a kezdő szintet választja, akkor
+            probalkozasok = 10 # 10 próbálkozása lesz
+            feladvany_hossza = 4 # 4 színt kell kitalálnia a 7-ből
+            szinek_tobbszor = False # 1 színt csak egyszer használhat fel
+            statisztika = True # kap statisztikát
+        elif szint == "H": # ha a játékos a haladó szintet választja, akkor
+            probalkozasok = 15 # 15 próbálkozása lesz
+            feladvany_hossza = 6 # 6 színt kell kitalálnia a 7-ből
+            szinek_tobbszor = True # 1 színt többször is felhasználhat
+            statisztika = False # nem kap statisztikát
+        elif szint == "E": # ha a játékos az egyéni beállításokat választja, akkor
             print("Probalkozasok szama? = ")
-            probalkozasok = int(input())
+            probalkozasok = int(input()) # a játékos eldöntheti, hogy mennyi próbálkozása legyen
             print("A Feladvany milyen hosszu legyen?")
-            feladvany_hossza = int(input())
+            feladvany_hossza = int(input())  # hány színt kell kitalálnia
             print ("Alapszinek:", szinek)
             print("szeretnel hozza adni az alap szinekhez? (i/n)")
-            while True:
-                if str(input()) == "n":
-                    break
-                else:
+            while True: 
+                if str(input()) == "n": # ha a játékos nem szeretne hozzáadni színt az alapszínekhez, akkor
+                    break # kilép a ciklusból
+                else: # ha a játékos szeretne hozzáadni színt az alapszínekhez, akkor
                     print("Szin neve?")
-                    szinek.append(str(input()))
+                    szinek.append(str(input())) # itt tehetei meg, beleteszi azt a színt a szinek listába
                     print("szin ANSI ? formatum: 0;30;41")
                     szinek_elotag.append("\x1b[" + str(input()) + "m")
                     print(szinek_elotag[-1] + szinek[-1] + szinek_utotag, "szin hozzaadva.")
                     print("Szeretned meg boviteni? (i/n)")
             print("Egy szin tobbszor is szerepelhet a feladvanyban? (i/n)")
-            if str(input()) == "i":             
-                szinek_tobbszor = True
-            else:
-                szinek_tobbszor = False
+            if str(input()) == "i":  # ha egy szín többször is szerepelhet a feladványban, akkor             
+                szinek_tobbszor = True # Szinek_tobbszor True
+            else: # más esetben
+                szinek_tobbszor = False # szinek_tobbszor False
             if feladvany_hossza >= len(szinek): # [JAVÍTÁS001] A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
                 szinek_tobbszor = True
                 print("Nem engedelyezett! A feladvany hosszabb mint szinek szama")
             print("A jatek indulasakor statisztika megjelenitese? (i/n)")
-            if str(input()) == "i":
-                statisztika = True
-            else:
-                statisztika = False
-            system("cls")
+            if str(input()) == "i": # ha a játékos kér statisztikát, akkor
+                statisztika = True # statisztika egyenlő True-val
+            else: # minden más esetben
+                statisztika = False # statisztika egyenlő False-val
+            system("cls") # képernyőtörlés
         print("Ellenorizd a beallitasaid:", "\n", "---------------------")
         print("Probalkozasok szama: ",probalkozasok)
         print("A Feladvany", feladvany_hossza, "kitalalando szinbol fog allni.")
@@ -128,16 +128,16 @@ def load_setup(beallitasok) -> List:
 
     """
 
-    filename, conf = beallitasok, [] # a beallitasok file-t használjuk, valamint létrehozzü
-    if filecheck(filename) == True:
-        fromfile = open(filename, "rb")
+    filename, conf = beallitasok, [] # beallitas file-t használjuk, definiálja a file nevet
+    if filecheck(filename) == True: # ha a file név teljesen egyenlő True-val, akkor 
+        fromfile = open(filename, "rb") # a beallitasok file-ból betölti a beállításokat egy listába.
         print("szeretned betolteni az elmentett beallitasokat? (i/n)")
-        if str(input()) == "n":
-            setup_game(beallitasok, adatbazis)
+        if str(input()) == "n": # ha a játékos nem szeretné betölteni az elmentett beállításokat, akkor
+            setup_game(beallitasok, adatbazis) # elindul a setup_game függvény
         else:
             print("Mentett beallitasok betoltese.")
-    else:
-        setup_game(beallitasok, adatbazis)
+    else: # ha afile név nem egyenlő True-val, akkor
+        setup_game(beallitasok, adatbazis) # elindul a setup_game függvény
 
     fromfile = open(filename, "rb") # a beallitasok file-ból betölti a beállításokat egy listába.
     while True:
@@ -163,19 +163,20 @@ def general(conf:List, adatbazis) -> List:
     
     """
 
-    filename, dbsize, random_db, feladvany = adatbazis, int(300), [], [] # az adatbazis file-t használja, lértehozza a random_db, feladvany listákat
+    filename, dbsize, random_db, feladvany = adatbazis, int(300), [], [] # létrehozza es feltölti 300 db random generált számmal az adatbazist
     if filecheck(filename) == False: # ha az adatbazis file teljesen egyenlő False-val
-        tofile = open(adatbazis, "wb") # a fromfile egyenlő olvassa az adatbazis file-ból
+        tofile = open(adatbazis, "wb") # a tofile egyenlő, írja az adatbazis file-ból
         for i in range(dbsize): 
             random_db.append(random.randint(0, len(conf[2])-1)) # 0-tól 6-ig generál
         pickle.dump(random_db,tofile) 
         tofile.close() # zárd be a tofile-ban meghatározott file-t
     while len(feladvany) < conf[1]:
-        if conf[4] ==True: # ha engedelyezve van nem ellenőrzi, hogy van -  e az a szám a feladvanyban.
+        if conf[4] ==True: # ha engedélyezve van nem ellenőrzi, hogy van - e az a szám a feladványban.
             szin = random.randint(0, len(conf[2])-1)
             feladvany.append(szin)
         else:
-            szin = random.randint(0, len(conf[2])-1) # [JAVÍTÁS001] 
+            szin = random.randint(0, len(conf[2])-1) # [JAVÍTÁS001]  # ha nem létezik, akkor létrehozza / újraírja
+
             if szin not in feladvany:
                 feladvany.append(szin)
             else:
@@ -259,7 +260,7 @@ def szinkod(bevitel:List, bevitel2:List, conf:List) -> str:
     for i in range(len(bevitel)):
                      # hány darab elem van a színek listában (7)
         for j in range(len(conf[2])):
-            if bevitel[i] == j: # ha a bevitel lista i. eleme teljesen egyenlő a szinek listájában lévő i. elemmel
+            if bevitel[i] == j: # ha a bevitel lista i. eleme teljesen egyenlő a szinek listájában lévő j. elemmel
                         # szin lista j. eleme   bevitel2 lista 2. elem      szin utotag a beallitasokból
                 process.append(conf[3][j] +"  " + bevitel2[i] + "  " + conf[6]) # szín előtag + szöveg  + szín reset
             else: continue
@@ -285,9 +286,9 @@ def tipp(conf:List, feladvany:List) -> List, bool:
     """
 
     bevitel, bevitel2 =  [], conf[2]
-    bevitel.extend(range(0, len(conf[2])))
-    print("Tippelheto szinek: ",szinkod(bevitel,bevitel2,conf)) # megjeleníti a létező színeket a játékban
-    bevitel = [] # törtli a bevitel listát nem definiálható bool()-ra
+    bevitel.extend(range(0, len(conf[2]))) # bekeri a tippjeit
+    print("Tippelheto szinek: ",szinkod(bevitel,bevitel2,conf)) # megjeleníti a létező színeket a játékban, ez beállítás függő
+    bevitel = [] # törtli a bevitel listát 
     while len(bevitel) < conf[1]: # amíg a bevitel lista hossza kisebb, mint a feladvany hossza
         print("Kerem adja meg ", (len(bevitel)+1), ". szin tippet.") 
         szintipp = str(input())
@@ -304,7 +305,7 @@ def tipp(conf:List, feladvany:List) -> List, bool:
         else: # ha nincs bent a választható színek között
             print("A ", szintipp, "nem szerepel a valaszthato szinek kozt.")
     bevitel2 = check(bevitel, feladvany, conf) # a check nevű függvény meghívása, hogy ellenőrizze a játékos tippeit, eredményét tegye bele a bevitel2 listába
-    if bevitel2 != True: # ha a bevitel2 nem egyenlő (True)val
+    if bevitel2 != True: # ha a bevitel2 nem egyenlő True-val
         process = szinkod(bevitel, bevitel2, conf) # akkor a szinkod függvény eredményét tölsd bele a process listába ( a check függvény eredményét viszi tovább a szinkod függvénybe: bevitel2 lista !)
         return process # visszaadja a process listát
     else: # ha a bevitel2 lista bármi más, kivéve True
