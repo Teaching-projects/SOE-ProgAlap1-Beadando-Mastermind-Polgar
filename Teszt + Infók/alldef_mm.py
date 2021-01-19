@@ -2,16 +2,15 @@
 
 import random
 import pickle
-import os 
+import os
 from os import system
 from typing import List
 
-beallitasok = "mastermind.setup" # főbeállítás file
-adatbazis = "mastermind.adatok" #az eddigi feladványok mentett adatbázisa
+beallitasok = "mastermind.setup"  # főbeállítás file
+adatbazis = "mastermind.adatok"  # az eddigi feladványok mentett adatbázisa
 
 
 def filecheck(filename) -> bool:
-
     """
 
     Ez a függvény eldönti, hogy megnyitható - e a fájl.
@@ -22,103 +21,119 @@ def filecheck(filename) -> bool:
     """
 
     try:
-        open(filename) # függvény futása előtt definiált változó
-        return True # True, ha megnyitható
+        open(filename)  # függvény futása előtt definiált változó
+        return True  # True, ha megnyitható
     except IOError:
-        return False # False, ha nem nyitható meg
+        return False  # False, ha nem nyitható meg
 
 
 def setup_game(beallitasok, adatbazis):
-
     """
 
-    A függvény alapján a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszana: kezdő, haladó, vagy egyéni beállítás által szeretne játszani. 
-    Ha a játékos a kezdő szintet választja, akkor 10 próbálkzása lesz, 4 színt kell kitalálnia az előre megadott 7 színből, 1 színt csak egyszer használhat fel, valamint a játék végén kap statisztikát. 
+    A függvény alapján a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszana: kezdő, haladó, vagy egyéni beállítás által szeretne játszani.
+    Ha a játékos a kezdő szintet választja, akkor 10 próbálkzása lesz, 4 színt kell kitalálnia az előre megadott 7 színből, 1 színt csak egyszer használhat fel, valamint a játék végén kap statisztikát.
     Ha a játékos a haladó szintet választja, akkor szintén 15 próbálkozása lesz, de 6 színt kell kitalálnia az előre megadott 7 színből, 1 színt többször is felhasználhat, a játék végén azonban nem kap statisztikát.
     Ha a játékos az egyéni beállításokat választja, akkor ő döntheti el, hány próbálkozása legyen, hány színt találjon ki, a 7 alapszínhez szeretne – e még hozzáadni színeket. Ezután azt is eldöntheti, hogy egy szín többször is szerepelhet – e a játékban, kér – e statisztikát, valamint, hogy ezeket a beállításokat szeretné – e elmenteni. Ha igen, akkor azokat egy file-ba fogja elmenteni a program.
 
     """
 
-    setup = True 
+    setup = True
     while setup is True:
-        filename, probalkozasok, feladvany_hossza, szinek_tobbszor, statisztika, szinek_utotag = adatbazis, int(), int(), bool(), bool(), str('\x1b[0m')
-        szinek = ["piros" , "zold" , "sarga" , "kek" , "lila" , "cyan" , "feher"]
-        szinek_elotag = ['\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m']
-        print("Milyen nehezsegi szinten szeretnel jatszani?","\n",
-            "K=Kezdo, H=Halado, E=Egyeni beallitasok") # A játék úgy kezdődik, hogy a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszani: kezdő, haladó, vagy egyéni szinten.
-        szint = str(input()) # bekéri a színt
-        if szint == "K": # ha a játékos a kezdő szintet választja, akkor
-            probalkozasok = 10 # 10 próbálkozása lesz
-            feladvany_hossza = 4 # 4 színt kell kitalálnia a 7-ből
-            szinek_tobbszor = False # 1 színt csak egyszer használhat fel
-            statisztika = True # kap statisztikát
-        elif szint == "H": # ha a játékos a haladó szintet választja, akkor
-            probalkozasok = 15 # 15 próbálkozása lesz
-            feladvany_hossza = 6 # 6 színt kell kitalálnia a 7-ből
-            szinek_tobbszor = True # 1 színt többször is felhasználhat
-            statisztika = False # nem kap statisztikát
-        elif szint == "E": # ha a játékos az egyéni beállításokat választja, akkor
+        filename, probalkozasok, feladvany_hossza, szinek_tobbszor, statisztika, szinek_utotag = adatbazis, int(
+        ), int(), bool(), bool(), str('\x1b[0m')
+        szinek = ["piros", "zold", "sarga", "kek", "lila", "cyan", "feher"]
+        szinek_elotag = ['\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m',
+            '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m']
+        print("Milyen nehezsegi szinten szeretnel jatszani?", "\n",
+            "K=Kezdo, H=Halado, E=Egyeni beallitasok")  # A játék úgy kezdődik, hogy a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszani: kezdő, haladó, vagy egyéni szinten.
+        szint = str(input())  # bekéri a színt
+        if szint == "K":  # ha a játékos a kezdő szintet választja, akkor
+            probalkozasok = 10  # 10 próbálkozása lesz
+            feladvany_hossza = 4  # 4 színt kell kitalálnia a 7-ből
+            szinek_tobbszor = False  # 1 színt csak egyszer használhat fel
+            statisztika = True  # kap statisztikát
+        elif szint == "H":  # ha a játékos a haladó szintet választja, akkor
+            probalkozasok = 15  # 15 próbálkozása lesz
+            feladvany_hossza = 6  # 6 színt kell kitalálnia a 7-ből
+            szinek_tobbszor = True  # 1 színt többször is felhasználhat
+            statisztika = False  # nem kap statisztikát
+        elif szint == "E":  # ha a játékos az egyéni beállításokat választja, akkor
             print("Probalkozasok szama? = ")
-            probalkozasok = int(input()) # a játékos eldöntheti, hogy mennyi próbálkozása legyen
+            # a játékos eldöntheti, hogy mennyi próbálkozása legyen
+            probalkozasok = int(input())
             print("A Feladvany milyen hosszu legyen?")
             feladvany_hossza = int(input())  # hány színt kell kitalálnia
-            print ("Alapszinek:", szinek)
+            print("Alapszinek:", szinek)
             print("szeretnel hozza adni az alap szinekhez? (i/n)")
-            while True: 
-                if str(input()) == "n": # ha a játékos nem szeretne hozzáadni színt az alapszínekhez, akkor
-                    break # kilép a ciklusból
-                else: # ha a játékos szeretne hozzáadni színt az alapszínekhez, akkor
+            while True:
+                if str(input()) == "n":  # ha a játékos nem szeretne hozzáadni színt az alapszínekhez, akkor
+                    break  # kilép a ciklusból
+                else:  # ha a játékos szeretne hozzáadni színt az alapszínekhez, akkor
                     print("Szin neve?")
-                    szinek.append(str(input())) # itt tehetei meg, beleteszi azt a színt a szinek listába
+                    # itt tehetei meg, beleteszi azt a színt a szinek listába
+                    szinek.append(str(input()))
                     print("szin ANSI ? formatum: 0;30;41")
                     szinek_elotag.append("\x1b[" + str(input()) + "m")
-                    print(szinek_elotag[-1] + szinek[-1] + szinek_utotag, "szin hozzaadva.")
+                    print(szinek_elotag[-1] + szinek[-1] +
+                          szinek_utotag, "szin hozzaadva.")
                     print("Szeretned meg boviteni? (i/n)")
             print("Egy szin tobbszor is szerepelhet a feladvanyban? (i/n)")
-            if str(input()) == "i":  # ha egy szín többször is szerepelhet a feladványban, akkor             
-                szinek_tobbszor = True # Szinek_tobbszor True
-            else: # más esetben
-                szinek_tobbszor = False # szinek_tobbszor False
-            if feladvany_hossza >= len(szinek): # [JAVÍTÁS001] A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
+            if str(input()) == "i":  # ha egy szín többször is szerepelhet a feladványban, akkor
+                szinek_tobbszor = True  # Szinek_tobbszor True
+            else:  # más esetben
+                szinek_tobbszor = False  # szinek_tobbszor False
+            # [JAVÍTÁS001] A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
+            if feladvany_hossza >= len(szinek):
                 szinek_tobbszor = True
                 print("Nem engedelyezett! A feladvany hosszabb mint szinek szama")
             print("A jatek indulasakor statisztika megjelenitese? (i/n)")
-            if str(input()) == "i": # ha a játékos kér statisztikát, akkor
-                statisztika = True # statisztika egyenlő True-val
-            else: # minden más esetben
-                statisztika = False # statisztika egyenlő False-val
-            system("cls") # képernyőtörlés
+            if str(input()) == "i":  # ha a játékos kér statisztikát, akkor
+                statisztika = True  # statisztika egyenlő True-val
+            else:  # minden más esetben
+                statisztika = False  # statisztika egyenlő False-val
+            system("cls")  # képernyőtörlés
         print("Ellenorizd a beallitasaid:", "\n", "---------------------")
-        print("Probalkozasok szama: ",probalkozasok)
-        print("A Feladvany", feladvany_hossza, "kitalalando szinbol fog allni.")
+        print("Probalkozasok szama: ", probalkozasok)
+        print("A Feladvany", feladvany_hossza,
+              "kitalalando szinbol fog allni.")
         for i in range(len(szinek)):
-            print(szinek_elotag[i] + szinek[i] + szinek_utotag, "szin hozzadva.")
-        print("Egy szin tobbszor is szerepelhet a feladvanyban =",szinek_tobbszor)
-        print("A jatek indulasakor szinek statisztikajanak mutatasa a feladvanyban =",statisztika, "\n")
+            print(szinek_elotag[i] + szinek[i] +
+                  szinek_utotag, "szin hozzadva.")
+        print("Egy szin tobbszor is szerepelhet a feladvanyban =", szinek_tobbszor)
+        print("A jatek indulasakor szinek statisztikajanak mutatasa a feladvanyban =",
+              statisztika, "\n")
         print("Szeretned elmenteni ezeket a beallitasokat? (i/n)")
         if str(input()) == "i":
-            if filecheck(filename) == True: # Az új beállítások mentésével törölni kell a színek statisztikájának adatbazisat, mert a színek hozzáadásával nem lenne pontos a statisztika.
+            # Az új beállítások mentésével törölni kell a színek statisztikájának adatbazisat, mert a színek hozzáadásával nem lenne pontos a statisztika.
+            if filecheck(filename) == True:
                 os.remove(filename)
-            config = open(beallitasok, "wb") # a beállítások mentése fájlba
-            pickle.dump(probalkozasok,config) #conf[0]
-            pickle.dump(feladvany_hossza,config) #conf[1]
-            pickle.dump(szinek,config) #conf[2]
-            pickle.dump(szinek_elotag,config) #conf[3]
-            pickle.dump(szinek_tobbszor,config) #conf[4]
-            pickle.dump(statisztika,config) #conf[5]
-            pickle.dump(szinek_utotag, config) #conf[6]
+            configfile = open(beallitasok, "wb")  # a beállítások mentése fájlba
+            config = {"maxprobalkozas" : probalkozasok, "szinekszam" : szinek, ... }
+            pcikle.dump(config,configfile)
+            configfile.close()
+
+            config = configfile.loaads()
+            config[0]
+
+
+            pickle.dump(probalkozasok, config)  # conf[0]
+            pickle.dump(feladvany_hossza, config)  # conf[1]
+            pickle.dump(szinek, config)  # conf[2]
+            pickle.dump(szinek_elotag, config)  # conf[3]
+            pickle.dump(szinek_tobbszor, config)  # conf[4]
+            pickle.dump(statisztika, config)  # conf[5]
+            pickle.dump(szinek_utotag, config)  # conf[6]
             config.close()
-            setup = False # kilépés a whlie ciklusból
+            setup = False  # kilépés a whlie ciklusból
         else:
             continue
-    
+
 
 def load_setup(beallitasok) -> List:
+    """
 
-     """ 
-    
     Ez a függvény ellenőrzi, hogy létezik - e a beallitsok file.
-    Ha létetik, akkor megnyitja a file-t és megkérdezi, hogy a játékos szeretné - e betölteni az elmentett beállításokat. 
+    Ha létetik, akkor megnyitja a file-t és megkérdezi, hogy a játékos szeretné - e betölteni az elmentett beállításokat.
         Ha nem szeretné a játékos, akkor elíndítja a septup_game függvényt.
         Ha szeretné a játékos, akkor kiírja: "Mentett beállítások betöltése."
     Ha nem létezik, akkor elindul a setup_game függvény.
@@ -127,7 +142,6 @@ def load_setup(beallitasok) -> List:
         List: programbeállítások listája
 
     """
-
     filename, conf = beallitasok, [] # beallitas file-t használjuk, definiálja a file nevet
     if filecheck(filename) == True: # ha a file név teljesen egyenlő True-val, akkor 
         fromfile = open(filename, "rb") # a beallitasok file-ból betölti a beállításokat egy listába.
@@ -187,7 +201,7 @@ def general(conf:List, adatbazis) -> List:
     return feladvany
 
 
-def check(bevitel:List, feladvany:List, conf:List) -> List / bool:
+def check(bevitel:List, feladvany:List):
 
     """
     Ez a függvény eldönti, hogy a játékos által megadott színek a véletlenszerűen kiválasztott színsorból eltalálta-e a színt és az jó helyen van-e (OK), 
@@ -203,7 +217,7 @@ def check(bevitel:List, feladvany:List, conf:List) -> List / bool:
         List: Kiírja a checktipp listát, amely az " RH ", " OK ", " NO " elemeket tartalmazza
         bool: kiírja, hogy True
 
-     >>> check(bevitel = [1, 2, 3, 4], feladvany = [1, 3, 5, 4])
+    >>> check(bevitel = [1, 2, 3, 4], feladvany = [1, 3, 5, 4])
     [' OK ', ' RH ', ' NO ', ' OK ']
     
     >>> check(bevitel = [1, 2, 3, 4], feladvany = [4, 5, 6, 7])
@@ -227,14 +241,14 @@ def check(bevitel:List, feladvany:List, conf:List) -> List / bool:
     """
 
     checktipp = []
-    for i in range(conf[1]):
+    for i in range(len(feladvany)):
         if bevitel[i] == feladvany[i]: # legszűkebb halmaz
             checktipp.append(" OK ")
         elif bevitel[i] in feladvany: # tágabb halmaz
             checktipp.append(" RH ")
         else:
             checktipp.append(" NO ") # halmazon kívüli
-    if checktipp.count(" OK ") < conf[1]: # valós ellenőrzés a játék megnyerésérE
+    if checktipp.count(" OK ") < len(feladvany): # valós ellenőrzés a játék megnyerésérE
         return checktipp # ha nyertél
     else:
         return True # ha vesztettél
@@ -267,7 +281,7 @@ def szinkod(bevitel:List, bevitel2:List, conf:List) -> str:
     return ("  ".join(process)) # egyesíti a stringeket a listában
 
 
-def tipp(conf:List, feladvany:List) -> List, bool:
+def tipp(conf:List, feladvany:List):
 
     """ 
     Ez a függvény a tippelhető színeket adja meg. Bekéri a játékostól a színeket. 
@@ -384,6 +398,5 @@ def mastermind():
         print("Sajnalom Vesztettel" + "\n" + "Ahelyes megfejtes:" + "\n" + szinkod(bevitel, bevitel2, conf)) # szinkod függvény legenerálja a megfejtés nyomtatását
 
 
-mastermind()
 
 
