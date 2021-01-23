@@ -1,0 +1,2 @@
+<2021/01/23  09:29:34>  statisztika => ['Tesztek/tesztdb.txt', ['14.0', '12.7', '12.3', '18.8', '13.6', '12.0', '16.6']] #Elemzi az adatbazisban a szinek aranyat (adatbazisfile szukseges a futasahoz)
+<2021/01/23  09:43:36>  statisztika => ['Tesztek/tesztdb.txt', ['14.0', '12.7', '12.4', '18.8', '13.7', '11.8', '16.6']] #Elemzi az adatbazisban a szinek aranyat (adatbazisfile szukseges a futasahoz)

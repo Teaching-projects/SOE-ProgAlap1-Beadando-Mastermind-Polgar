@@ -1,0 +1,3 @@
+<2021/01/23  09:28:32>  tipp => [[1, 2, 3, 4], '\x1b[0;30;41m   NO   \x1b[0m  \x1b[0;30;42m   RH   \x1b[0m  \x1b[0;30;43m   RH   \x1b[0m  \x1b[0;30;44m   RH   \x1b[0m'] #A tippeket osszeveti a feladvannyal, True vagy a feldolgozott tippek az eredmeny
+<2021/01/23  09:41:44>  tipp => [[6, 5, 4, 3, 2, 1], True] #A tippeket osszeveti a feladvannyal, True vagy a feldolgozott tippek az eredmeny
+<2021/01/23  09:43:01>  tipp => [[1, 2], '\x1b[0;30;43m   RH   \x1b[0m  \x1b[0;30;44m   NO   \x1b[0m'] #A tippeket osszeveti a feladvannyal, True vagy a feldolgozott tippek az eredmeny
