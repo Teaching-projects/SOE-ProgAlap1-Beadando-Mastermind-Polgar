@@ -7,7 +7,7 @@ import os
 mappa = "Mastermind_V2"
 beallitasok = mappa + "/mastermind.setup" # fo beallitas file -----> Dict
 print(beallitasok)
-adatbazis = mappa +"/mastermind.adatok" # feladvanyok adatbazika amibol a statisztika keszul -----> Dict
+adatbazis = mappa + "/mastermind.adatok" # feladvanyok adatbazika amibol a statisztika keszul -----> Dict
 
 
 #beallitasok = "mastermind.setup" # fo beallitas file -----> Dict
@@ -24,9 +24,9 @@ def filecheck(filename): # eldoni hogy megnyithato e a file
 
 def setup_game_E(cg):
     print("Probalkozasok szama?")
-    cg["conf0"] = int(input())
+    cg["Probalkozasok"] = int(input())
     print("A Feladvany milyen hosszu legyen?")
-    cg["conf1"] = int(input())
+    cg["Feladvany"] = int(input())
     print ("Alapszinek:", cg["szinek"])
     print("szeretnel hozza adni az alap szinekhez? (i/n)")
     while True:
@@ -45,17 +45,17 @@ def setup_game_E(cg):
             print("Szeretned meg boviteni? (i/n)")
     print("Egy szin tobbszor is szerepelhet a feladvanyban? (i/n)")
     if str(input()) == "i":             
-        cg["conf4"] = True
+        cg["Szinismetles"] = True
     else:
-        cg["conf4"] = False
-    if cg["conf1"] >= len(cg["szinek"]): # A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
-        cg["conf4"] = True
+        cg["Szinismetles"] = False
+    if cg["Feladvany"] >= len(cg["szinek"]): # A feladvany nem lehet hosszabb mint a szinek szama ha nem szerepelhet tobbszor egy szin.
+        cg["Szinismetles"] = True
         print("Nem engedelyezett! A feladvany hosszabb mint szinek szama")
     print("A jatek indulasakor statisztika megjelenitese? (i/n)")
     if str(input()) == "i":
-        cg["conf5"] = True
+        cg["Statisztika"] = True
     else:
-        cg["conf5"] = False
+        cg["Statisztika"] = False
     return cg
 
 
@@ -70,25 +70,25 @@ def setup_game(filename):
             "K=Kezdo, H=Halado, E=Egyeni beallitasok")
         szint = str(input())
         if szint == "K":
-            cg["conf0"] = 10
-            cg["conf1"] = 4
-            cg["conf4"] = False
-            cg["conf5"] = True
+            cg["Probalkozasok"] = 10
+            cg["Feladvany"] = 4
+            cg["Szinismetles"] = False
+            cg["Statisztika"] = True
         elif szint == "H":
-            cg["conf0"] = 15
-            cg["conf1"] = 6
-            cg["conf4"] = True
-            cg["conf5"] = False
+            cg["Probalkozasok"] = 15
+            cg["Feladvany"] = 6
+            cg["Szinismetles"] = True
+            cg["Statisztika"] = False
         elif szint == "E":
             cg = setup_game_E(cg)
         system("cls")
         print("Ellenorizd a beallitasaid:", "\n", "---------------------")
-        print("Probalkozasok szama: ",cg["conf0"])
-        print("A Feladvany", cg["conf1"], "kitalalando szinbol fog allni.")
+        print("Probalkozasok szama: ",cg["Probalkozasok"])
+        print("A Feladvany", cg["Feladvany"], "kitalalando szinbol fog allni.")
         for i in range(len(cg["szinek"])):
             print(cg["szinek_elotag"][i] + cg["szinek"][i] + cg["szinek_utotag"], "szin hozzadva.")
-        print("Egy szin tobbszor is szerepelhet a feladvanyban =", cg["conf4"])
-        print("A jatek indulasakor szinek statisztikajanak mutatasa a feladvanyban =",cg["conf5"], "\n")
+        print("Egy szin tobbszor is szerepelhet a feladvanyban =", cg["Szinismetles"])
+        print("A jatek indulasakor szinek statisztikajanak mutatasa a feladvanyban =",cg["Statisztika"], "\n")
         print("Szeretned elmenteni ezeket a beallitasokat? (i/n)")
         if str(input()) == "i":
             cg["C_save"] = True
@@ -114,7 +114,7 @@ def load_setup(beallitasok, adatbazis):
                 fromfile.close()
     else:
         cg = setup_game(filename)
-    conf = [cg["conf0"], cg["conf1"], cg["szinek"], cg["szinek_elotag"], cg["conf4"], cg["conf5"], cg["szinek_utotag"] ]
+    conf = [cg["Probalkozasok"], cg["Feladvany"], cg["szinek"], cg["szinek_elotag"], cg["Szinismetles"], cg["Statisztika"], cg["szinek_utotag"] ]
     return conf
         
 
