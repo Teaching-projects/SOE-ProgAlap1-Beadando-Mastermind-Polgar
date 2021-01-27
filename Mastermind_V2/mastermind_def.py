@@ -14,7 +14,17 @@ adatbazis = mappa + "/mastermind.adatok" # feladvanyok adatbazika amibol a stati
 #adatbazis = "mastermind.adatok" # feladvanyok adatbazika amibol a statisztika keszul -----> Dict
 
 
-def filecheck(filename): # eldoni hogy megnyithato e a file
+def filecheck(filename):
+    
+    """
+
+    Ez a függvény eldönti, hogy megnyitható - e a file filename változóban a megnyitandó file neve.
+
+    Returns:
+        bool: Kiírja, hogy létezik - e, megnyitható - e a file. Ha igen, akkor True, ha nem, akkor False.
+   
+    """
+    
     try:
         open(filename) # fuggveny futasa elott definialt valtozo
         return True # True ha megnyithato
@@ -23,6 +33,9 @@ def filecheck(filename): # eldoni hogy megnyithato e a file
 
 
 def setup_game_E(cg):
+    
+    """ Ez a függvény az egyéni szint működését mutatja be. A játékos döntheti el, hogy hány próbálkozása legyen, hány színt találjon ki, a 7 alapszínhez szeretne – e még hozzáadni színeket. Ezután azt is eldöntheti, hogy egy szín többször is szerepelhet – e a játékban, kér – e statisztikát, valamint azt is, hogy ezeket a beállításokat szeretné – e elmenteni. Ha igen, akkor azokat egy file-ba fogja elmenteni a program. """
+    
     print("Probalkozasok szama?")
     cg["Probalkozasok"] = int(input())
     print("A Feladvany milyen hosszu legyen?")
@@ -61,6 +74,14 @@ def setup_game_E(cg):
 
 
 def setup_game(filename):
+    
+    """
+    A függvény alapján a játékos eldöntheti, hogy milyen nehézségi szinten szeretne játszana: kezdő vagy haladó. 
+    Ha a játékos a kezdő szintet választja, akkor 10 próbálkzása lesz, 4 színt kell kitalálnia az előre megadott 7 színből, 1 színt csak egyszer használhat fel, valamint a játék elején és végén is kap statisztikát.
+    Ha a játékos a haladó szintet választja, akkor 15 próbálkozása lesz, 6 színt kell kitalálnia az előre megadott 7 színből, 1 színt többször is felhasználhat, valamint csak a játék végén kap statisztikát.
+
+    """
+    
     cg = {"szinek" : ["piros" , "zold" , "sarga" , "kek" , "lila" , "cyan" , "feher"],
           "szinek_elotag" : ['\x1b[0;30;41m', '\x1b[0;30;42m', '\x1b[0;30;43m', '\x1b[0;30;44m', '\x1b[0;30;45m', '\x1b[0;30;46m', '\x1b[0;30;47m'],
           "szinek_utotag" : str('\x1b[0m')}
@@ -100,7 +121,19 @@ def setup_game(filename):
     return cg
        
 
-def load_setup(beallitasok, adatbazis):
+def load_setup(beallitasok, adatbazis) -> List:
+    
+    """
+    Ez a függvény ellenőrzi, hogy létezik - e a beallitsok file. 
+    Ha létetik, akkor megnyitja a file-t és megkérdezi, hogy a játékos szeretné - e betölteni az elmentett beállításokat. 
+    Ha nem szeretné a játékos, akkor elíndítja a septup_game függvényt. 
+    Ha szeretné a játékos, akkor kiírja: "Mentett beállítások betöltése." 
+    Ha nem létezik, akkor elindul a setup_game függvény.
+
+    Returns:
+        List: A conf listát adja vissza, azaz a programbeállítások listáját
+
+    """
     cg = {}
     filename = beallitasok
     if filecheck(filename) == True:
@@ -118,7 +151,19 @@ def load_setup(beallitasok, adatbazis):
     return conf
         
 
-def general(conf, adatbazis):
+def general(conf: List, adatbazis) -> List:
+    
+    """
+    Ez a függvény véletlenszerűen kíválasztja azokat a színeket, amelyeket el kell találnia a játékosnak.
+
+    Args:
+        conf(List): programbeállítások listája
+
+    Returns:
+        List: a feladvany lista, amely a véletlenszerűen kiadott színek listája
+
+    """
+    
     filename, dbsize, random_db, feladvany = adatbazis, int(300), [], [] # dbsize elogeneralt szamok szama ha nem letezik az adatbazis file
     if filecheck(filename) == False:
         tofile = open(adatbazis, "wb")
@@ -141,8 +186,47 @@ def general(conf, adatbazis):
     addtofile.close()
     return feladvany
 
-# checktipp Listat vagy True bool-t   (Eredmenytol fugg)
-def check(bevitel, feladvany, conf):
+
+def check(bevitel: List, feladvany: List, conf: List):
+    
+    """
+    Ez a függvény eldönti, hogy a játékos által megadott színek a véletlenszerűen kiválasztott színsorból eltalálta-e a színeket és azok jó helyen vannak-e (OK),vagy 
+        eltalálta a színeket, de nem jó helyen vannak (RH), vagy 
+        egyáltalan nem találta el a színeket (NO).
+ 
+    Args:
+        bevitel(List): a játékos által megadott tippek listája
+        feladvany(List): azon színek listája, amelyeket a program generált
+        conf(List): programbeállítások listája
+    
+    Returns:
+        List: checktipp listát adja vissza, ha nyert a játékos 
+        bool: True, ha a játékos vesztett
+        
+
+    >>> check(bevitel = [1, 2, 3, 4], feladvany = [1, 3, 5, 4])
+    [' OK ', ' RH ', ' NO ', ' OK ']
+    
+    >>> check(bevitel = [1, 2, 3, 4], feladvany = [4, 5, 6, 7])
+    [' RH ', ' NO ', ' NO ', ' NO ']
+
+    >>> check(bevitel = [1, 2, 3, 4], feladvany = [1, 2, 3, 4])
+    [' OK ', ' OK ', ' OK ', ' OK ', ' OK ', ' OK ']
+
+    >>> check(bevitel = [2, 4, 6, 7], feladvany = [4, 2, 7, 6])
+    [' RH ', ' RH ', ' RH ', ' RH ']
+    
+    >>> check(bevitel = [1, 2, 3, 4, 5, 6], feladvany = [1, 2, 3, 4, 5, 6])
+    [' OK ', ' OK ', ' OK ', ' OK ', ' OK ', ' OK ']
+
+    >>> check(bevitel = [1, 2, 3, 4, 5, 6], feladvany = [1, 3, 2, 4, 6, 5])
+    [' OK ', ' RH ', ' RH ', ' OK ', ' RH ', ' RH ']
+
+    >>> check(bevitel = [1, 2, 3, 4, 5, 6], feladvany = [2, 3, 1, 5, 6, 4])
+    [' RH ', ' RH ', ' RH ', ' RH ', ' RH ', ' RH ']
+    
+    """
+    
     checktipp = []
     for i in range(conf[1]):
         if bevitel[i] == feladvany[i]: # Legszukebb halmaz
@@ -157,7 +241,20 @@ def check(bevitel, feladvany, conf):
         return True # Ha nyertel
 
 
-def szinkod(bevitel, bevitel2, conf):
+def szinkod(bevitel: List, bevitel2: List, conf: List):
+    
+    """
+    A játékosok által megadott színeket adja meg háttérszínnel és szöveggel.
+
+    Args:
+        bevitel(List): háttérszín
+        bevitel2(List): szöveg 
+        conf(List): programbeállítások listája
+
+    Returns:
+        List: egyesíti a stringeket a listában
+    """
+    
     process = []
     for i in range(len(bevitel)):
         for j in range(len(conf[2])):
@@ -167,7 +264,21 @@ def szinkod(bevitel, bevitel2, conf):
     return ("  ".join(process))
 
 
-def tipp(conf, feladvany):
+def tipp(conf: List, feladvany: List):
+    
+    """
+    Ez a függvény a tippelhető színeket adja meg. Bekéri a játékostól a színeket. Ha olyan szintet választott a játékos, ahol 1 színt csak egyszer lehet kiválasztani, akkor a program kiírja, hogy "ezt a színt már tippelted". Ha olyan színt tippel a játékos, amely nem szerepel a választható színek között, akkor a program ezt írja ki: "Ez a szín nem szerepel a választható színek közt".
+
+    Args: 
+        conf(List): programbeállítások listája
+        feladvany(List): azon színek listája, amit a program véletlenszerűen legenerált
+
+    Returns:
+        List: visszaadja a process listát 
+        bool: kiírja, hogy True
+
+    """
+    
     bevitel, bevitel2 = [], conf[2]
     bevitel.extend(range(0, len(conf[2]))) 
     print("Tippelheto szinek: ",szinkod(bevitel,bevitel2,conf)) # megjeleniti a letezo szineket a jatekban.
@@ -195,7 +306,19 @@ def tipp(conf, feladvany):
         return True # akkor vissza adja (True)
 
 
-def statisztika(conf, adatbazis):
+def statisztika(conf: List, adatbazis) -> List:
+    
+    """
+    Ez a függvény egy statisztikát készít: a színek hány %-ban forduktak elő.
+
+    Args:
+        conf(List): programbeállítások listája
+
+    Returns:
+        List: tesztlistát adja vissza
+
+    """
+
     filename, statisztika, process, teszt = adatbazis, [], [], []
     if filecheck(filename) == True: # ha letezik az adatbazis file...
         fromfile = open(filename, "rb") # akkor a fromfile egyenlo olvass az adatbazis fajlbol binarisan
@@ -226,7 +349,10 @@ def statisztika(conf, adatbazis):
         teszt = "no DataBase"
     return teszt
 
-def mastermind(): # fuggveny ami maga a jatek
+def mastermind():
+    
+    """ Ez a függvény ami maga a játék. """
+    
     conf = load_setup(beallitasok, adatbazis) # betolti a bealitasokat a conf nevu listaba a load_setup() fuggvennyel
     feladvany = general(conf,adatbazis) # betolti a feladvany listaba a general() fuggveny eredmenyet
     #print(feladvany) # a feladvany megjelenitese a hibak keresesehez
